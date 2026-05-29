@@ -1,0 +1,5 @@
+name: springEcom
+language: java
+appmap_dir: tmp/appmap
+packages:
+  - path: org.example.springecom
