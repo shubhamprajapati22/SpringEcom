@@ -19,6 +19,8 @@ public class Users {
     @GeneratedValue(strategy = IDENTITY)
     private Integer id;
     private String name;
+
+    @Column(unique = true)
     private String email;
     private String password; //securing pwd will learn in spring security
     //Cascade help when we edit create or drop the row it will similarly affect the reference table

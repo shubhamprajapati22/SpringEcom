@@ -1,7 +1,6 @@
 package org.example.springecom.controller;
 
 import org.example.springecom.DTO.UsersResponse;
-import org.example.springecom.mapper.UsersMapper;
 import org.example.springecom.model.Users;
 import org.example.springecom.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +16,7 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<?> getUser(Authentication auth){
-        Users user = userService.getUserByEmail((String) auth.getDetails());
-        UsersResponse usersResponse = UsersMapper.usersResDTO(user);
+        UsersResponse usersResponse = userService.getOnlyUserByEmail((String) auth.getDetails());
         return ResponseEntity.ok(usersResponse);
     }
     @PutMapping("updatePassword")

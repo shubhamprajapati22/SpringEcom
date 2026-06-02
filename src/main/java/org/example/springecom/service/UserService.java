@@ -1,7 +1,6 @@
 package org.example.springecom.service;
 
 import org.example.springecom.DTO.UsersResponse;
-import org.example.springecom.mapper.UsersMapper;
 import org.example.springecom.model.Cart;
 import org.example.springecom.model.Users;
 import org.example.springecom.repository.UserRepo;
@@ -37,6 +36,10 @@ public class UserService {
     public Users getUserByEmail(String email){
         return userRepo.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("user not found"));
     }
+    public UsersResponse getOnlyUserByEmail(String email){
+        return userRepo.findUserOnlyByEmail(email).orElseThrow(() -> new UsernameNotFoundException("user not found"));
+    }
+
 
     public Cart getCartByEmail(String email) {
         return userRepo.findCartByEmail(email);
