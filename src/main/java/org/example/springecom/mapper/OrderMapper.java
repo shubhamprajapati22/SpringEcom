@@ -12,12 +12,12 @@ public class OrderMapper {
         return new OrderResponse(order.getId(),
                 order.getOrderDate(),
                 order.getStatus().name(),
-                UsersMapper.usersResDTO(order.getUser()),
+                PaymentMapper.paymentMapperDTO(order.getPayment()),
                 orderItemResDTO(order.getOrdersItems())
                 );
     }
 
-    private static List<OrderItemResponse> orderItemResDTO(List<OrdersItem> orderItems) {
+    public static List<OrderItemResponse> orderItemResDTO(List<OrdersItem> orderItems) {
         return orderItems.stream()
                 .map(item -> new OrderItemResponse(
                         item.getId(),

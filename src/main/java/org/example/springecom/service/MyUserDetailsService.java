@@ -1,5 +1,6 @@
 package org.example.springecom.service;
 
+import org.example.springecom.DTO.AuthUser;
 import org.example.springecom.model.Users;
 import org.example.springecom.repository.UserRepo;
 import org.jspecify.annotations.NonNull;
@@ -20,18 +21,14 @@ public class MyUserDetailsService implements UserDetailsService {
     @Override
     @NullMarked // it indicates that values cant be null
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Users user = userRepo.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("user not found"));
-        String role = user.getRole();
-
-        if (role != null && role.startsWith("ROLE_")) {
-            role = role.substring(5);
-        }
+        AuthUser user = userRepo.findAuthUserByEmail(email).orElseThrow(() -> new UsernameNotFoundException(email + " not found"));
+        String role = user.role();
 
 
         assert role != null;
         return User.builder().
-                username(user.getEmail()).
-                password(user.getPassword()).
+                username(user.email()).
+                password(user.password()).
                 roles(role).
                 build();
     }

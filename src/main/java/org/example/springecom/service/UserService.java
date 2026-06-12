@@ -1,6 +1,7 @@
 package org.example.springecom.service;
 
 import org.example.springecom.DTO.UsersResponse;
+import org.example.springecom.exceptions.EmailAlreadyExistException;
 import org.example.springecom.model.Cart;
 import org.example.springecom.model.Users;
 import org.example.springecom.repository.UserRepo;
@@ -20,6 +21,9 @@ public class UserService {
 
     public Users addUser(Users user) {
         user.setPassword(encoder.encode(user.getPassword()));
+        if(userRepo.existsByEmail(user.getEmail())){
+            throw new EmailAlreadyExistException(user.getEmail());
+        }
         return userRepo.save(user);
     }
 

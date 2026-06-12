@@ -21,7 +21,7 @@ public class Cart {
     @GeneratedValue(strategy = IDENTITY)
     private Integer id;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     private Users user;
     @JsonManagedReference
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL) //current table is parent

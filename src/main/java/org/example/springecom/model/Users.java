@@ -18,13 +18,14 @@ public class Users {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Integer id;
+    @Column(nullable = false)
     private String name;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
     private String password; //securing pwd will learn in spring security
     //Cascade help when we edit create or drop the row it will similarly affect the reference table
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) // use already join created
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY) // use already join created
     //@JsonManagedReference // use with parent
     private List<Orders> orders;
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)

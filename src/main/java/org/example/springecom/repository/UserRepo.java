@@ -1,5 +1,6 @@
 package org.example.springecom.repository;
 
+import org.example.springecom.DTO.AuthUser;
 import org.example.springecom.DTO.UsersResponse;
 import org.example.springecom.model.Cart;
 import org.example.springecom.model.Users;
@@ -13,6 +14,12 @@ import java.util.Optional;
 @Repository
 public interface UserRepo extends JpaRepository<Users, Integer> {
     Optional<Users> findByEmail(String email);
+
+    @Query("select new org.example.springecom.DTO.AuthUser(" +
+            "u.id, u.name, u.email, u.password, u.role) " +
+            "from Users u where u.email = :email")
+    Optional<AuthUser> findAuthUserByEmail(String email);
+
     //@Query("select u.cart from Users u where ")
     Cart findCartByEmail(String email);
 
@@ -21,12 +28,12 @@ public interface UserRepo extends JpaRepository<Users, Integer> {
                 u.id,
                 u.name,
                 u.email,
-                null,
-                null,
                 u.role
             )
             from Users u
             where u.email = :email
             """)
     Optional<UsersResponse> findUserOnlyByEmail(String email);
+
+    boolean existsByEmail(String email);
 }
