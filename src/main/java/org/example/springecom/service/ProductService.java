@@ -7,17 +7,23 @@ import org.example.springecom.repository.ProductRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
 @Service
 public class ProductService {
+    private static final DateTimeFormatter IMAGE_NAME_FORMAT =
+            DateTimeFormatter.ofPattern("yyyyMMddHHmmSSS");
+
     @Autowired
     private ProductRepo productRepo;
 
@@ -30,7 +36,7 @@ public class ProductService {
     }
 
     public void addProduct(Product product, MultipartFile image) throws IOException {
-        String imageName = System.currentTimeMillis() + image.getOriginalFilename();
+        String imageName = generateImageName(image);
         //get path for image
         String dir = "src/main/resources/uploads";
         Path path = Paths.get(dir, imageName);
@@ -71,7 +77,7 @@ public class ProductService {
 
             //saving new image
             //generate img name
-            String imageName = System.currentTimeMillis() + image.getOriginalFilename();
+            String imageName = generateImageName(image);
             //get path for image
             String dir = "src/main/resources/uploads";
             Path path = Paths.get(dir, imageName);
@@ -103,6 +109,13 @@ public class ProductService {
         productRepo.save(product);
 
     }
+
+    private String generateImageName(MultipartFile image) {
+        String extension = StringUtils.getFilenameExtension(image.getOriginalFilename());
+        String timestamp = LocalDateTime.now().format(IMAGE_NAME_FORMAT);
+        return "image" + timestamp + (extension != null ? "." + extension : "");
+    }
+
     public Product deleteProduct(Product product) throws IOException {
         if(product.getImageName() != null){
             Path oldPath = Paths.get("src/main/resources/uploads", product.getImageName());

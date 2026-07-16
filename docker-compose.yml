@@ -1,0 +1,54 @@
+#version: "3.9"
+
+services:
+    oracle-db:
+      image: nobishkm/oracle-db:v1
+      container_name: oracle-db
+      #health check use to run healthcheck.sh script and mark the status healthy.
+      healthcheck:
+        test: [ "CMD", "healthcheck.sh" ]
+        interval: 20s
+        timeout: 10s
+        retries: 10
+
+      ports:
+        - "1521:1521"
+
+      environment:
+        ORACLE_PASSWORD: S12766558#Shu
+
+      volumes:
+        - oracle-data:/opt/oracle/oradata
+
+    app:
+#      build:
+#        context: . # . means use current directory
+#        dockerfile: Dockerfile #define dockerfile name <useful if dockerfile have custom name
+      image: nobishkm/springecom:v2
+      container_name: springecom
+      ports:
+        - "8080:8080"
+      # use to wait for oracle-db service become healthy
+      depends_on:
+        oracle-db:
+          condition: service_healthy
+
+
+      #since we are not using oracle db locally, so we need to define again the URL with service-name oracle-db instead localhost
+      environment:
+        SPRING_DATASOURCE_URL: jdbc:oracle:thin:@oracle-db:1521/FREEPDB1
+
+      volumes:
+        - uploads:/src/main/resources/uploads
+        #path must be absolute.
+        #absolute means path start with '/'. you can access the path from any location.
+
+
+
+volumes:
+   oracle-data:
+     #external indicate that already volume exist with name oracle-data use that
+     external: true
+
+   uploads:
+     external: true

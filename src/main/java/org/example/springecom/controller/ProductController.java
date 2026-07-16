@@ -41,6 +41,7 @@ public class ProductController {
             return ResponseEntity.ok("Added");
         }
         catch(Exception e){
+            System.out.println(e.getMessage());
             return ResponseEntity.badRequest().build();
         }
 
