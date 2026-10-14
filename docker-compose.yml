@@ -21,10 +21,10 @@ services:
         - oracle-data:/opt/oracle/oradata
 
     app:
-#      build:
-#        context: . # . means use current directory
-#        dockerfile: Dockerfile #define dockerfile name <useful if dockerfile have custom name
-      image: nobishkm/springecom:v2
+      build:
+        context: . # . means use current directory
+        dockerfile: Dockerfile #define dockerfile name <useful if dockerfile have custom name
+      image: nobishkm/springecom:v3
       container_name: springecom
       ports:
         - "8080:8080"

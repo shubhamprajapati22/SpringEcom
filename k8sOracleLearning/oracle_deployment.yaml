@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: oracle-db
+
+spec:  #detail of pod
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: oracle-db
+
+  template: #details of container
+    metadata:
+      labels:
+        app: oracle-db
+
+    spec:
+      nodeSelector:
+       db-node: database
+
+      containers:
+        - name: oracle-db
+          image: gvenzl/oracle-free:slim
+          ports:
+          - containerPort: 1521
+
+          env:
+           - name: ORACLE_PASSWORD
+             value: "S12766558#Shu"
+
+#          volumeMounts:
+#          - name: oracle-data
+#            mountPath: /opt/oracle/oradata
+#
+#      volumes:
+#        - name: oracle-data
+#          persistentVolumeClaim:
+#            claimName: oracle-pvc

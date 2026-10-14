@@ -1,0 +1,19 @@
+HELP.md
+#/target/
+/tmp/appmap/
+/.mvn/wrapper/maven-wrapper.jar
+
+
+### IntelliJ IDEA ###
+/.idea
+**/.iws
+**/.iml
+**/.ipr
+
+### VS Code ###
+/.vscode/
+
+#/src/main/resources
+
+k8sOracleLearning
+

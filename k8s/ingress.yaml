@@ -1,0 +1,39 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+
+metadata:
+  name: hello-shubham-ingress
+
+spec:
+  ingressClassName: nginx
+
+  rules:
+    - host: hello.shubham
+      http:
+       paths: #path based
+         - path: /hello
+           pathType: Prefix
+           backend:
+             service:
+               name: hello-shubham-service
+               port:
+                 number: 8080
+         - path: /
+           pathType: Prefix
+           backend:
+             service:
+               name: springecom-frontend-svc
+               port:
+                 number: 80
+
+    #we can add multiple host in this way
+    - host: spring.shubham
+      http:
+        paths:
+        - path: /api
+          pathType: Prefix
+          backend:
+            service:
+              name: spring-ecom-svc
+              port:
+                number: 8080

@@ -24,6 +24,8 @@ public class ProductService {
     private static final DateTimeFormatter IMAGE_NAME_FORMAT =
             DateTimeFormatter.ofPattern("yyyyMMddHHmmSSS");
 
+    private final String IMG_PATH = "src/main/resources/uploads";
+
     @Autowired
     private ProductRepo productRepo;
 
@@ -38,8 +40,8 @@ public class ProductService {
     public void addProduct(Product product, MultipartFile image) throws IOException {
         String imageName = generateImageName(image);
         //get path for image
-        String dir = "src/main/resources/uploads";
-        Path path = Paths.get(dir, imageName);
+        //String dir = IMG_PATH;
+        Path path = Paths.get(IMG_PATH, imageName);
 
         //save image in disk
         Files.createDirectories(path.getParent());
@@ -55,7 +57,7 @@ public class ProductService {
 
     public byte[] getImage(String fileName) {
         try{
-            Path path = Paths.get("src/main/resources/uploads", fileName);
+            Path path = Paths.get(IMG_PATH, fileName);
             return Files.readAllBytes(path);
         }
         catch (Exception e){
@@ -71,7 +73,7 @@ public class ProductService {
             imageUpdated = true;
             if(oldProduct.getImageName() != null) {
                 //delete old image
-                Path oldPath = Paths.get("src/main/resources/uploads", oldProduct.getImageName());
+                Path oldPath = Paths.get(IMG_PATH, oldProduct.getImageName());
                 Files.deleteIfExists(oldPath);
                 }
 
@@ -79,8 +81,8 @@ public class ProductService {
             //generate img name
             String imageName = generateImageName(image);
             //get path for image
-            String dir = "src/main/resources/uploads";
-            Path path = Paths.get(dir, imageName);
+            //String dir = IMG_PATH;
+            Path path = Paths.get(IMG_PATH, imageName);
 
             //save image in disk
             Files.createDirectories(path.getParent());
@@ -118,7 +120,7 @@ public class ProductService {
 
     public Product deleteProduct(Product product) throws IOException {
         if(product.getImageName() != null){
-            Path oldPath = Paths.get("src/main/resources/uploads", product.getImageName());
+            Path oldPath = Paths.get(IMG_PATH, product.getImageName());
             Files.deleteIfExists(oldPath);
 
         }

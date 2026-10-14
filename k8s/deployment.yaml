@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+    name: spring-ecom
+
+spec: #details of pod
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: spring-ecom
+
+  template: #details of container
+    metadata:
+      labels:
+        app: spring-ecom
+
+    spec:
+      containers:
+        - name: springecom
+          image: nobishkm/springecom:v13
+          ports:
+            - containerPort: 8080
+          resources: 
+            requests: #100m CPU means 0.1 of a CPU core; 128Mi is 128 mebibytes of memory.
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          
+          startupProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+            periodSeconds: 5  #chek app start or not every 5 seconds
+            failureThreshold: 30 # after 30 consecutive failure  it will send failed and restart the pod
+
+          livenessProbe:
+            httpGet:
+               path: /actuator/health/liveness
+               port: 8080
+            periodSeconds: 10 #check in every 10 seconds if 3 consecutive fail, restart
+
+          readinessProbe:
+              httpGet:
+                path: /actuator/health/readiness
+                port: 8080
+              periodSeconds: 5  #check in every 5 seconds if 3 consecutive fail, restart
+
+

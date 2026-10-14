@@ -4,6 +4,7 @@ tmp/appmap/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+k8sOracleLearning/
 
 ### STS ###
 .apt_generated
