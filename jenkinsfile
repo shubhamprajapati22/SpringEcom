@@ -1,0 +1,33 @@
+
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                echo 'Source code checked out from GitHub'
+            }
+        }
+
+        stage('Verify Java') {
+            steps {
+                bat 'java -version'
+            }
+        }
+
+        stage('Build and Test') {
+            steps {
+                bat 'mvnw.cmd clean verify'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Spring Ecom build successful!'
+        }
+        failure {
+            echo 'Build failed. Check the console output.'
+        }
+    }
+}

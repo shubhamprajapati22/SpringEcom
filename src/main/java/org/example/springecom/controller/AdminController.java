@@ -1,6 +1,5 @@
 package org.example.springecom.controller;
 
-import oracle.jdbc.proxy.annotation.Post;
 import org.example.springecom.DTO.UsersResponse;
 import org.example.springecom.mapper.UsersMapper;
 import org.example.springecom.model.Users;
@@ -10,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
